@@ -44,7 +44,7 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 	top.clusters <- anal.results[last.one:(last.one - top.number + 1)]
 	
 	### Top.clusters will be outputed 
-	
+	print(paste("top number ", "47"))
 	
 	sites.vec <- rep("", length = sum(top.clusters$n_sites_in_cluster))
 	cluster.vec <- rep(0, sum(top.clusters$n_sites_in_cluster))
@@ -58,7 +58,7 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 		ind <- ind + top.clusters$n_sites_in_cluster[i]
 		
 	}
-	
+	print(paste("top number ", "61"))
 	annotation.top.clusters <- annot.probe.vec(sites.vec, annot = annot, annotation.file.name = annotation.file.name, required.annotation = required.annotation)
 	annotation.top.clusters <- cbind(cluster.vec, annotation.top.clusters)
 	colnames(annotation.top.clusters)[1] <- "cluster"
@@ -69,7 +69,7 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 	ind.res.mat <- matrix(0, nrow = length(sites.vec), ncol = 2)
 #	colnames(ind.res.mat) <- c("exp_effect", "exp_pval")
 	rownames(ind.res.mat) <- sites.vec
-	
+	print(paste("top number ", "72"))
 	model.expr.1.site <- paste("model <- geeglm(temp.meth[ind.comp] ~ exposure[ind.comp] + ")	
 	for (j in 1:ncol(covariates)){
 		 if (j == ncol(covariates)) model.expr.1.site <- paste(model.expr.1.site, colnames(covariates)[j])
@@ -90,6 +90,7 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 		print(paste("i = ", i, "ind = ", ind))
 
 	}
+	print(paste("top number ", "92"))
 	ind.res.mat <- data.frame(ind.res.mat)
 	ind.res.mat <- cbind(sites.vec, cluster.vec, ind.res.mat)
 	colnames(ind.res.mat) <- c("site", "cluster", "exposure effect", "exposure p-values")
