@@ -32,11 +32,13 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 	
 	top.number <- min(top.number, nrow(anal.results))	
 	
+	print(paste("top number ", top.number))
+	
 	if (top.number == 0){
 		cat("0 clusters were found with corrected p-value smaller than ",  cutoff.fdr.pval, "no output produced" ,"/n")
 	}  else {
 	
-
+	
 	
 	last.one <- nrow(anal.results)	
 	top.clusters <- anal.results[last.one:(last.one - top.number + 1)]
@@ -54,6 +56,7 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 		cluster.vec[ind:(ind + top.clusters$n_sites_in_cluster[i] -1)] <- i
 
 		ind <- ind + top.clusters$n_sites_in_cluster[i]
+		
 	}
 	
 	annotation.top.clusters <- annot.probe.vec(sites.vec, annot = annot, annotation.file.name = annotation.file.name, required.annotation = required.annotation)
@@ -83,6 +86,8 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 		
 		ind.res.mat[i,1] <-summary(model)[[6]][2,1]
 		ind.res.mat[i,2] <- summary(model)[[6]][2,4]
+		
+		print(paste("i = ", i, "ind = ", ind))
 
 	}
 	ind.res.mat <- data.frame(ind.res.mat)
