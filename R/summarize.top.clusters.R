@@ -38,11 +38,11 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 		cat("0 clusters were found with corrected p-value smaller than ",  cutoff.fdr.pval, "no output produced" ,"/n")
 	}  else {
 	
-	
+	print(paste("top number ", "41"))
 	
 	last.one <- nrow(anal.results)	
 	top.clusters <- anal.results[last.one:(last.one - top.number + 1)]
-	
+	print(paste("top number ", "45"))
 	### Top.clusters will be outputed 
 	print(paste("top number ", "47"))
 	
