@@ -62,7 +62,7 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 	}
 	
 	annotation.top.clusters <- annot.probe.vec(sites.vec, annot = annot, annotation.file.name = annotation.file.name, required.annotation = required.annotation)
-	
+	print(annotation.top.clusters)
 	message(paste("This is the vector with cluster assignments of the top clusters, of length", length(cluster.vec)))
 	print(cluster.vec)
 		
