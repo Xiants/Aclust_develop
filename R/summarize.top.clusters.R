@@ -41,9 +41,9 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 	
 	
 	last.one <- nrow(anal.results)	
-	print(last.one)
+	print(paste("last.one", last.one))
 	top.clusters <- anal.results[last.one:(last.one - top.number + 1)]
-	print(top.clusters)
+	print(paste("top.clusters", top.clusters))
 	### Top.clusters will be outputed 
 	
 	
