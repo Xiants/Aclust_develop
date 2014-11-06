@@ -70,15 +70,17 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 	print(annotation.top.clusters)
 	
 	annotation.top.clusters <- cbind(cluster.vec, annotation.top.clusters)
+	message("line 73 Binding cluster.vec and annotation.top.clusters")
 	colnames(annotation.top.clusters)[1] <- "cluster"
 	
 	#### annotation.top.clusters is one of the required outputs. 
 	
 	## finally, inidividual site analysis of the sites in the top clusters:
+	message("inidividual site analysis...")
 	ind.res.mat <- matrix(0, nrow = length(sites.vec), ncol = 2)
 #	colnames(ind.res.mat) <- c("exp_effect", "exp_pval")
 	rownames(ind.res.mat) <- sites.vec
-	
+	message("running model.expr.1.site...")
 	model.expr.1.site <- paste("model <- geeglm(temp.meth[ind.comp] ~ exposure[ind.comp] + ")	
 	for (j in 1:ncol(covariates)){
 		 if (j == ncol(covariates)) model.expr.1.site <- paste(model.expr.1.site, colnames(covariates)[j])
