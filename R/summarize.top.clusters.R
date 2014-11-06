@@ -50,7 +50,7 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 	cluster.vec <- rep(0, sum(top.clusters$n_sites_in_cluster))
 	
 	ind <- 1
-	for (i in 1:top.number){
+	for (i in 1000:top.number){
 		
 		sites.vec[ind:(ind + top.clusters$n_sites_in_cluster[i] -1)] <- strsplit(top.clusters$cluster_sites[i], split = ";")[[1]]
 		cluster.vec[ind:(ind + top.clusters$n_sites_in_cluster[i] -1)] <- i
