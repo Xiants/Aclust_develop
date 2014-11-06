@@ -32,19 +32,19 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 	
 	top.number <- min(top.number, nrow(anal.results))	
 	
-	print(paste("top number ", top.number))
+	print(paste("up to ", top.number, "of clusters will be analyzed and reported"))
 	
 	if (top.number == 0){
 		cat("0 clusters were found with corrected p-value smaller than ",  cutoff.fdr.pval, "no output produced" ,"/n")
 	}  else {
 	
-	print(paste("top number ", "41"))
+	
 	
 	last.one <- nrow(anal.results)	
 	top.clusters <- anal.results[last.one:(last.one - top.number + 1)]
-	print(paste("top number ", "45"))
+	
 	### Top.clusters will be outputed 
-	print(paste("top number ", "47"))
+	
 	
 	sites.vec <- rep("", length = sum(top.clusters$n_sites_in_cluster))
 	cluster.vec <- rep(0, sum(top.clusters$n_sites_in_cluster))
@@ -57,25 +57,35 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 
 		ind <- ind + top.clusters$n_sites_in_cluster[i]
 		
+		message(paste("The ", i, "-th cluster sites were parsed"))
+		
 	}
-	print(paste("top number ", "61"))
+	
 	annotation.top.clusters <- annot.probe.vec(sites.vec, annot = annot, annotation.file.name = annotation.file.name, required.annotation = required.annotation)
+	
+	message(paste("This is the vector with cluster assignments of the top clusters, of length", length(cluster.vec)))
+	print(cluster.vec)
+		
+	message(paste("This is the annotation of top clusters, describing", nrow(annotation.top.clusters), "sites"))
+	print(annotation.top.clusters)
+	
 	annotation.top.clusters <- cbind(cluster.vec, annotation.top.clusters)
 	colnames(annotation.top.clusters)[1] <- "cluster"
 	
-	#### annotation.top.clusters is one of the require output. 
+	#### annotation.top.clusters is one of the required outputs. 
 	
-	## finally, inidicidual site analysis of the sites in the top clusters:
+	## finally, inidividual site analysis of the sites in the top clusters:
 	ind.res.mat <- matrix(0, nrow = length(sites.vec), ncol = 2)
 #	colnames(ind.res.mat) <- c("exp_effect", "exp_pval")
 	rownames(ind.res.mat) <- sites.vec
-	print(paste("top number ", "72"))
+	
 	model.expr.1.site <- paste("model <- geeglm(temp.meth[ind.comp] ~ exposure[ind.comp] + ")	
 	for (j in 1:ncol(covariates)){
 		 if (j == ncol(covariates)) model.expr.1.site <- paste(model.expr.1.site, colnames(covariates)[j])
 		 	else  	model.expr.1.site <- paste(model.expr.1.site, colnames(covariates)[j], "+")}
 	model.expr.1.site <- paste(model.expr.1.site, ", data = covariates[ind.comp,], id = as.numeric(id)[ind.comp])")
 	
+	message("starting individual site analysis...")
 	
 	for (i in 1:length(sites.vec)){
 
@@ -87,16 +97,17 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 		ind.res.mat[i,1] <-summary(model)[[6]][2,1]
 		ind.res.mat[i,2] <- summary(model)[[6]][2,4]
 		
-		print(paste("i = ", i, "ind = ", ind))
+		print(paste("Analyzed the ", i, "-th site out of ", length(sides), "sites"))
 
 	}
-	print(paste("top number ", "92"))
 	ind.res.mat <- data.frame(ind.res.mat)
 	ind.res.mat <- cbind(sites.vec, cluster.vec, ind.res.mat)
 	colnames(ind.res.mat) <- c("site", "cluster", "exposure effect", "exposure p-values")
 	### This is the third required output.
 	
+	
 	if (!is.null(file.to.print.report)){
+		message("printing report to file...")
 		
 		sink(file.to.print.report)
 		cat("\\documentclass{article}", "\n")
@@ -114,7 +125,7 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 		sink(file.to.print.report, append = T)
 		cat("\\end{document}", "\n")
 		sink()
-
+		message("finished preparing latex file with summarizing tables")
 	}
 	
 	top.clusters <- top.clusters[,abs.exp.effect := NULL]
