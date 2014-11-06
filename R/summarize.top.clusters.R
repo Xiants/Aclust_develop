@@ -100,7 +100,6 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 		print(paste("Analyzed the ", i, "-th site out of ", length(sides), "sites"))
 
 	}
-	message("dataframe after ending individual site analysis...")
 	ind.res.mat <- data.frame(ind.res.mat)
 	ind.res.mat <- cbind(sites.vec, cluster.vec, ind.res.mat)
 	colnames(ind.res.mat) <- c("site", "cluster", "exposure effect", "exposure p-values")
