@@ -91,7 +91,6 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 	for (i in 1:length(sites.vec)){
 
 		temp.meth <- betas[sites.vec[i],]
-			print(paste("Analyzed")
 		ind.comp <- which(complete.cases(cbind(temp.meth, exposure, covariates, id)))
 		
 		eval(parse(text = model.expr.1.site))
