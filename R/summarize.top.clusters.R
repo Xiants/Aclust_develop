@@ -79,11 +79,12 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 #	colnames(ind.res.mat) <- c("exp_effect", "exp_pval")
 	rownames(ind.res.mat) <- sites.vec
 	
+	
 	model.expr.1.site <- paste("model <- geeglm(temp.meth[ind.comp] ~ exposure[ind.comp] + ")	
 	for (j in 1:ncol(covariates)){
 		 if (j == ncol(covariates)) model.expr.1.site <- paste(model.expr.1.site, colnames(covariates)[j])
 		 	else  	model.expr.1.site <- paste(model.expr.1.site, colnames(covariates)[j], "+")}
-	model.expr.1.site <- paste(model.expr.1.site, ", data = covariates[ind.comp,], id = as.numeric(id)[ind.comp])")
+	model.expr.1.site <- paste(model.expr.1.site, ", data = as.data.frame(covariates[ind.comp,]), id = as.numeric(id)[ind.comp])")
 	
 	message("starting individual site analysis...")
 	
@@ -97,7 +98,7 @@ function(betas, covariates, exposure, id, clusters.GEE.results = NULL, clusters.
 		ind.res.mat[i,1] <-summary(model)[[6]][2,1]
 		ind.res.mat[i,2] <- summary(model)[[6]][2,4]
 		
-		print(paste("Analyzed the ", i, "-th site out of ", length(sides), "sites"))
+		print(paste("Analyzed the ", i, "-th site out of ", length(sites.vec), "sites"))
 
 	}
 	ind.res.mat <- data.frame(ind.res.mat)
